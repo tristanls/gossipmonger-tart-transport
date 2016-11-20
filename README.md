@@ -56,35 +56,49 @@ Tart transport for [Gossipmonger](https://github.com/tristanls/node-gossipmonger
 
 ### new TartTransport([config])
 
-  * `config`: _Object_ _(Default: {})_
+  * `config`: _Object_ Configuration.
+    * `authority`: _String_ _(Default: random)_ Tart Ansible protocol authority name to use for this transport.
+    * `randomBytes`: _Function_ Allow for replacement of `crypto.randomBytes` in case of need for deterministic testing.
+    * `router`: _Function_ Tart-marshal router to register this transport's domain.
 
 Creates a new TartTransport ready to send and receive messages.
 
 ### tartTransport.deltas(remotePeer, localPeer, deltasToSend)
 
-  * `remotePeer`: _Object_ Peer to send deltas to.
+  * `remotePeer`: _Object_ Peer to send message to.
     * `transport`: _Object_ Tart transport data.
-      * `send`: _Function_ Capability to send message to remote peer.
+      * `ansible`: _String_ Ansible address of peer to send message to.
   * `localPeer`: _Object_ Sender peer.
     * `id`: _String_ Sender peer id.
     * `transport`: _Object_ Tart transport data.
-      * `send`: _Function_ Capability to send message to local peer.
-  * `deltasToSend`: _Any_ Deltas to send.
+      * `ansible`: _String_ Ansible address of peer sending the message.
+  * `deltasToSend`: _Any_ Deltas to send
 
 Sends `deltasToSend` to the `remotePeer`.
 
 ### tartTransport.digest(remotePeer, localPeer, digestToSend)
 
-  * `remotePeer`: _Object_ Peer to send deltas to.
+  * `remotePeer`: _Object_ Peer to send message to.
     * `transport`: _Object_ Tart transport data.
-      * `send`: _Function_ Capability to send message to remote peer.
+      * `ansible`: _String_ Ansible address of peer to send message to.
   * `localPeer`: _Object_ Sender peer.
     * `id`: _String_ Sender peer id.
     * `transport`: _Object_ Tart transport data.
-      * `send`: _Function_ Capability to send message to local peer.
-  * `digestToSend`: _Any_ Digest to send.
+      * `ansible`: _String_ Ansible address of peer sending the message.
+  * `digestToSend`: _Any_ Digest to send
 
 Sends `digestToSend` to the `remotePeer`.
+
+### tartTransport.send(remotePeer, payload)
+
+_**CAUTION: reserved for internal use**_
+
+  * `remotePeer`: _Object_ Peer to send message to.
+    * `transport`: _Object_ Tart transport data.
+      * `ansible`: _String_ Ansible address of peer to send message to.
+  * `payload`: _String_ or _Object_ Payload to send to peer.
+
+Internal common implementation for `tartTransport.deltas(...)` and `tartTransport.digest(...)`.
 
 ### Event `deltas`
 
